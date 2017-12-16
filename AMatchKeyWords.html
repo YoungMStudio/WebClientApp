@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style> 
+#main{width:960px;margin:0 auto 0 auto;text-align:center;} 
+#head{ height:50px;margin:30px auto 20px auto;} 
+#body{ font-size:16px; text-align:left; text-indent:2EM;} 
+#logo{ font-family:Courier New;font-weight: bold;font-size:28px; text-align:left; color : #336699; list-style-position: outside} 
+</style> <div id="logo"><p>YoungMStudio<sup>&reg;</sup></p></div>
+<title>高频词排序</title>
+<h1 align="center">高频词筛选小程序</h1>
+<div id="body"><p >编者按：请在下列输入框内提交需要统计的TXT文本，如一篇文章。请在下列输入框内提交关键字的TXT文本，如中国、社会、司法、一揽子，词和词之间用，号隔开。</p></div>
+<script>
+window.onload=function () {
+ 	 if(typeof(FileReader)=="undefined")
+ 	 {
+		alert("你的浏览器不支持文件读取");
+		document.write("");
+	}else
+	{
+		alert("你的浏览器支持文件读取");
+	}
+}
+ function msg()
+ {
+	var t1="",t2="";
+	var strz="";
+	var strs= new Array(); //定义一数组
+	var strn= new Array(); //定义一数组
+	var file1=document.getElementById("myfile1").files[0];  
+	var file2=document.getElementById("myfile2").files[0];  
+	var reader1=new FileReader();
+	var reader2=new FileReader();
+	reader1.readAsText(file1,"gb2312" );
+	reader2.readAsText(file2,"gb2312" );
+	reader1.onload=function()
+	{
+		t1=this.result;
+	};
+	reader2.onload=function()
+	{
+		t2=this.result;
+		strs=t2.split("，");
+		for(var i=0;i<strs.length-1;i++ ){
+			var count=0;
+			var offset=0;
+			if(t1.length>=strs[i].length){
+				do{
+					offset=t1.indexOf(strs[i],offset)
+					if(offset!=-1){
+						count++;
+						offset+=strs[i].length;
+					}
+				}while(offset!=-1);
+				strn[i]=count;
+			}
+			else strn[i]=0;
+			strz+=strs[i]+":"+strn[i]+"\n";
+		}
+		alert("统计完毕");
+		bubbleSort(strn,strs);
+		strz="";
+		for(var j=0;j<strs.length-1;j++ ){
+			strz+=strs[j]+":"+strn[j]+"\n";
+		}
+		R0.innerHTML=strz;
+	}
+
+
+}
+
+function bubbleSort(strn,strs) {
+    if (Object.prototype.toString.call(strn).slice(8, -1) === 'Array') {
+        var len = strn.length, temp1,temp2;
+        for (var i = 0; i < len - 1; i++) {
+            for (var j = len - 1; j >= i; j--) {
+                if (strn[j] > strn[j - 1]) {
+                    temp1 = strn[j],temp2=strs[j];
+                    strn[j] = strn[j - 1],strs[j] = strs[j - 1];
+                    strn[j - 1] = temp1,strs[j - 1] = temp2;
+                }
+            }
+        }
+    } else {
+	alert("-----");
+	return 'array is not an Array!';
+    }
+}
+</script>
+<hr>
+<div>
+<form><p align="center">统计对象<input type="file" id="myfile1" accept=".txt"  style="width:400px; height:24px"></p></form>
+ </div>
+<div><p align="center"></p>
+<form><p align="center">匹配词组<input type="file" id="myfile2" accept=".txt"  style="width:400px; height:24px"></p></form>
+</div>
+<div>
+<form><p align="center">输出路径<input type="text" id="myfile3" value="output.txt"  style="width:400px; height:24px"></p></form>
+</div>
+<p align="center">执行按钮<input type="button" onclick="msg()" value="开始统计" style="width:400px; height:24px"></p>
+<hr>
+<p id="R0"></p>
+<p id="R1"></p>
+<p id="R2"></p>
+</body>
+<div id="footer">
+<p id="p1" align="center">
+<span>YoungMStudio<sup>&reg;</sup>提供的内容仅用于试验，不保证内容完全正确，通过使用本站内容随之而来的风险与本站无关。</span>
+<br />YoungMStudio<sup>&reg;</sup>简体中文版的所有内容仅供测试，对任何法律问题及风险不承担任何责任。
+</p>
+<p id="p2" align="center">YoungMStudio<sup>&reg;</sup>版权所有！</p>
+</div>
+
