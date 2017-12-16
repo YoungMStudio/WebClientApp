@@ -40,11 +40,6 @@ window.onload=function () {
 	reader2.onload=function()
 	{
 		t2=this.result;
-		var writer1 = new ActiveXObject("Scripting.FileSystemObject"); 
-		var writer2 = new ActiveXObject("Scripting.FileSystemObject"); 
-		var fh1 = writer1.CreateTextFile("output1.txt", true); 
-		var fh2 = writer2.CreateTextFile("output2.txt", true); 
-
 		strs=t2.split("，");
 		for(var i=0;i<strs.length-1;i++ ){
 			var count=0;
@@ -61,7 +56,6 @@ window.onload=function () {
 			}
 			else strn[i]=0;
 			strz+=strs[i]+":"+strn[i]+"\n";
-			fh1.WriteLine(strs[i]+":"+strn[i]); 
 		}
 		alert("统计完毕");
 		bubbleSort(strn,strs);
@@ -70,9 +64,6 @@ window.onload=function () {
 			strz+=strs[j]+":"+strn[j]+"\n";
 			fh2.WriteLine(strs[j]+":"+strn[j]); 
 		}
-		fh1.Close(); 
-		fh2.Close(); 
-		alert("写入完毕");
 		R0.innerHTML=strz;
 	}
 
